@@ -46,11 +46,11 @@ body{
     padding: 5px;
     background-color: transparent;
     text-decoration: none;
-    color: rgb(200, 215, 33);
+    color: rgb(253, 254, 254);
     font-family: 'Merriweather', serif ;
     cursor: pointer;
     border-radius: 20px;
-    border: 2px solid rgb(200, 215, 33);;
+    border: 2px solid rgb(255, 0, 0);;
 }
 
 .form:hover{
