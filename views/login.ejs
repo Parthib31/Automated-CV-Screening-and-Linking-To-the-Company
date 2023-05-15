@@ -1,43 +1,29 @@
-<%- include('partials/header') %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="CSS/login_style.css">
+</head>
+<body>
 
-<div class="container mt-5">
-  <h1>Login</h1>
+<div id="id01" class="login">
+  
+  <form class="login-content animate" action="/jobseeker.com%20login" method="post">
+      <h1>JOBSEEKER.COM</h1>
+    <div class="container">
+      <label for="uname"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="username" required>
 
-  <div class="row">
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="card-body">
-
-          <!-- Makes POST request to /login route -->
-          <form action="/login" method="POST">
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" class="form-control" name="username">
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" name="password">
-            </div>
-            <button type="submit" class="btn btn-dark">Login</button>
-            <h5>Don't have an account ? <a href="/register">sign up</a></h5>
-          </form>
-
-        </div>
-      </div>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
+        
+      <button type="submit">Login</button>
     </div>
 
-    <!-- <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body">
-          <a class="btn btn-block" href="/auth/google" role="button">
-            <i class="fab fa-google"></i>
-            Sign In with Google
-          </a>
-        </div>
-      </div>
-    </div> -->
-
-  </div>
+    <div class="container" style="background-color:#f9f4f4">
+      <h3 style="text-align: center;">Don't have an account ? <a href="/jobseeker.com%20register">sign up</a></h5>
+    </div>
+  </form>
 </div>
-
-<%- include('partials/footer') %>
+</body>
+</html>

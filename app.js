@@ -76,20 +76,21 @@ const formSchema = new mongoose.Schema({
   resume: String,
   coverletter: { type: String, required: true },
 });
+
 const Form1 = mongoose.model("Web_dev", formSchema);
 const Form2 = mongoose.model("App_dev", formSchema);
 const Form3 = mongoose.model("Data_Analyst", formSchema);
 
 //Router definition:
-app.get("/login", (req, res) => {
+app.get("/jobseeker.com%20login", (req, res) => {
   res.render("login");
 });
 
-app.get("/register", (req, res) => {
+app.get("/jobseeker.com%20register", (req, res) => {
   res.render("register");
 });
 
-app.get("/logout", function (req, res, next) {
+app.get("/jobseeker.com%20logout", function (req, res, next) {
   req.logout(function (err) {
     if (err) {
       return next(err);
@@ -98,45 +99,61 @@ app.get("/logout", function (req, res, next) {
   });
 });
 
-app.get("/home", (req, res) => {
+app.get("/jobseeker.com%20home", (req, res) => {
   if (req.isAuthenticated()) {
     res.render("index");
   } else {
-    res.redirect("/login");
+    res.redirect("/jobseeker.com%20login");
   }
 });
+
+app.get("/jobseeker.com%20about",(req,res)=>{
+  if (req.isAuthenticated()) {
+    res.render("about");
+  } else {
+    res.redirect("/jobseeker.com%20login");
+  }
+})
+
+app.get("/jobseeker.com%20contact",(req,res)=>{
+  if (req.isAuthenticated()) {
+    res.render("contact");
+  } else {
+    res.redirect("/jobseeker.com%20login");
+  }
+})
 
 app.get("/", (req, res) => {
   if (req.isAuthenticated()) {
-    res.redirect("/home");
+    res.redirect("/jobseeker.com%20home");
   } else {
-    res.redirect("/login");
+    res.redirect("/jobseeker.com%20login");
   }
 });
 
-app.get("/form", (req, res) => {
+app.get("/jobseeker.com%20form", (req, res) => {
   res.render("user-form.ejs");
 });
 
 //user details post:
-app.post("/register", async function (req, res) {
+app.post("/jobseeker.com%20register", async function (req, res) {
   User.register(
     { username: req.body.username },
     req.body.password,
     function (err, user) {
       if (err) {
         console.error(err);
-        res.redirect("/register");
+        res.redirect("/jobseeker.com%20register");
       } else {
         passport.authenticate("local")(req, res, function () {
-          res.redirect("/home");
+          res.redirect("/jobseeker.com%20home");
         });
       }
     }
   );
 });
 
-app.post("/login", async (req, res) => {
+app.post("/jobseeker.com%20login", async (req, res) => {
   const newUser = new User({
     username: req.body.username,
     password: req.body.password,
@@ -145,17 +162,17 @@ app.post("/login", async (req, res) => {
   req.login(newUser, function (err) {
     if (err) {
       console.error(err);
-      res.redirect("/login");
+      res.redirect("/jobseeker.com%20login");
     } else {
       passport.authenticate("local")(req, res, function () {
-        res.redirect("/home");
+        res.redirect("/jobseeker.com%20home");
       });
     }
   });
 });
 
 //job application post:
-app.post("/form", upload.single("resume"), async (req, res) => {
+app.post("/jobseeker.com%20form", upload.single("resume"), async (req, res) => {
 
   res.render("success");
 
@@ -168,15 +185,14 @@ app.post("/form", upload.single("resume"), async (req, res) => {
   };
 
   //Web Dev Company
-  mammoth.extractRawText({ path: "./webDevDataset.docx" }).then(function (result1) {
+  mammoth.extractRawText({ path: "./Company Datasets/webDevDataset.docx" }).then(async function (result1) {
     let text1 = result1.value;
 
     const filePath = path.join("./uploads", req.file.filename);
-    mammoth.extractRawText({ path: filePath }).then(function (result2) {
+    mammoth.extractRawText({ path: filePath }).then(async function (result2) {
       let text2 = result2.value;
 
-      var ans = calculateMatchPercentage(text1, text2); //calculating match percentage
-      console.log(ans);
+      var ans = await calculateMatchPercentage(text1, text2); //calculating match percentage
 
       if (ans >= 60) {
         Form1.create(formData).then((item, err) => {
@@ -191,15 +207,14 @@ app.post("/form", upload.single("resume"), async (req, res) => {
   });
 
   //App Dev Company
-  mammoth.extractRawText({ path: "./appDevDataset.docx" }).then(function (result1) {
+  mammoth.extractRawText({ path: "./Company Datasets/appDevDataset.docx" }).then(async function (result1) {
     let text1 = result1.value;
 
     const filePath = path.join("./uploads", req.file.filename);
-    mammoth.extractRawText({ path: filePath }).then(function (result2) {
+    mammoth.extractRawText({ path: filePath }).then(async function (result2) {
       let text2 = result2.value;
 
-      var ans1 = calculateMatchPercentage(text1, text2); //calculating match percentage
-      console.log(ans1);
+      var ans1 = await calculateMatchPercentage(text1, text2); //calculating match percentage
 
       if (ans1 >= 60) {
         Form2.create(formData).then((item, err) => {
@@ -214,15 +229,14 @@ app.post("/form", upload.single("resume"), async (req, res) => {
   });
 
   //Data Analyst Company
-  mammoth.extractRawText({ path: "./DataAnalystDataset.docx" }).then(function (result1) {
+  mammoth.extractRawText({ path: "./Company Datasets/DataAnalystDataset.docx" }).then(async function (result1) {
     let text1 = result1.value;
 
     const filePath = path.join("./uploads", req.file.filename);
-    mammoth.extractRawText({ path: filePath }).then(function (result2) {
+    mammoth.extractRawText({ path: filePath }).then(async function (result2) {
       let text2 = result2.value;
 
-      var ans2 = calculateMatchPercentage(text1, text2); //calculating match percentage
-      console.log(ans2);
+      var ans2 = await calculateMatchPercentage(text1, text2); //calculating match percentage
 
       if (ans2 >= 60) {
         Form3.create(formData).then((item, err) => {
@@ -238,33 +252,35 @@ app.post("/form", upload.single("resume"), async (req, res) => {
   
 });
 
-app.get("/web", function (req, res) {
+//Company routes:
+app.get("/jobseeker.com%20web", function (req, res) {
   Form1.find({}).then((data, err) => {
     if (err) {
       console.log(err);
     }
-    res.render("datas", { data: data });
+    res.render("datas", { data: data,job: "Web Developer Applicants" });
   });
 });
 
-app.get("/app", function (req, res) {
+app.get("/jobseeker.com%20app", function (req, res) {
   Form2.find({}).then((data, err) => {
     if (err) {
       console.log(err);
     }
-    res.render("datas", { data: data });
+    res.render("datas", { data: data ,job: "App Developer Applicants"});
   });
 });
 
-app.get("/data", function (req, res) {
+app.get("/jobseeker.com%20data", function (req, res) {
   Form3.find({}).then((data, err) => {
     if (err) {
       console.log(err);
     }
-    res.render("datas", { data: data });
+    res.render("datas", { data: data ,job: "Data Analyst Applicants"});
   });
 });
 
+//Downloading the Screened CV:
 app.get("/company/:filename", function (req, res) {
   const filePath = path.join("./uploads", req.params.filename);
   const readStream = fs.createReadStream(filePath);
